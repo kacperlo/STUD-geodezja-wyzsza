@@ -10,3 +10,18 @@ h=macierzDane(:,3);
 phiB=38.774167;
 lambdaB=-9.134167;
 hB=114;
+
+
+[x,y,z]=geo2xyz(1,1,1,a,e2);
+
+%---Funkcje---
+%Obliczanie x,y,z
+function[x,y,z]=geo2xyz(phi,lambda,h,a,e2)
+phiRad=deg2rad(phi);
+lambdaRad=deg2rad(lambda);
+N=a/sqrt(1-e2*sin(phiRad)^2);
+x=(N+h)*cos(phiRad)*cos(lambdaRad);
+y=(N+h)*cos(phiRad)*sin(lambdaRad);
+z=(N*(1-e2)+h)*sin(phiRad);
+end
+

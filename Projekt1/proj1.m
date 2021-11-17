@@ -22,6 +22,8 @@ u=[];
 nr=[];
 
 A=[];
+s=[];
+zz=[];
 
 for id = 1:length(phi)
     tempNeu=geo2neu(phi(id), lambda(id), h(id), phiB, lambdaB, hB, a, e2);
@@ -45,6 +47,9 @@ for id = 1:length(phi)
     if(A(id)<0)
         A(id)=A(id)+360;
     end
+    
+    s(id)=sqrt(n(id)^2+e(id)^2+u(id)^2);
+    z(id)=acosd(u(id)/s(id));
 end
 
 %plot3(n,e,u);

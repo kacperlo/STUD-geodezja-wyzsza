@@ -15,13 +15,17 @@ hB=114;
 [x,y,z]=geo2xyz(1,1,1,a,e2);
 
 %---Funkcje---
-%Obliczanie x,y,z
+%Obliczanie xyz
 function[x,y,z]=geo2xyz(phi,lambda,h,a,e2)
-phiRad=deg2rad(phi);
-lambdaRad=deg2rad(lambda);
-N=a/sqrt(1-e2*sin(phiRad)^2);
-x=(N+h)*cos(phiRad)*cos(lambdaRad);
-y=(N+h)*cos(phiRad)*sin(lambdaRad);
-z=(N*(1-e2)+h)*sin(phiRad);
+    N=a/sqrt(1-e2*sind(phi)^2);
+    x=(N+h)*cosd(phi)*cosd(lambda);
+    y=(N+h)*cosd(phi)*sind(lambda);
+    z=(N*(1-e2)+h)*sind(phi);
+end
+%Obliczanie delt
+function[deltas]=countDelta(x1, y1, z1, x2, y2, z2)
+    deltas=[x1-x2;
+        y1-y2;
+        z1-z2];
 end
 

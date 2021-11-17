@@ -21,6 +21,8 @@ u=[];
 
 nr=[];
 
+A=[];
+
 for id = 1:length(phi)
     tempNeu=geo2neu(phi(id), lambda(id), h(id), phiB, lambdaB, hB, a, e2);
     [x(id),y(id),z(id)]=geo2xyz(phi(id), lambda(id), h(id), a, e2);
@@ -28,6 +30,21 @@ for id = 1:length(phi)
     e(id)=tempNeu(2);
     u(id)=tempNeu(3);
     nr(id)=id;
+    
+    A(id)=atand(e(id)/n(id));
+    if(n(id)<0 && e(id)>0)
+        A(id)=A(id)+180;
+    elseif(n(id)<0 && e(id)<0)
+        A(id)=A(id)+180;
+    else
+        A(id)=A(id)+360;
+    end
+    if(A(id)>360)
+        A(id)=A(id)-360;
+    end
+    if(A(id)<0)
+        A(id)=A(id)+360;
+    end
 end
 
 %plot3(n,e,u);

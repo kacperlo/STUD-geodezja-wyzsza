@@ -28,4 +28,15 @@ function[deltas]=countDelta(x1, y1, z1, x2, y2, z2)
         y1-y2;
         z1-z2];
 end
-
+%Obliczanie neu
+function[neu]=geo2neu(phi, lambda, h, phiB, lambdaB, hB, a, e2)
+    R=[-sind(phiB)*cosd(lambdaB) -sind(lambdaB) cosd(phiB)*cosd(lambdaB);
+        -sind(phiB)*sind(lambdaB) cosd(lambdaB) cosd(phiB)*sind(lambdaB);
+        cosd(phiB) 0 sind(phiB)];
+    
+    [x,y,z]=geo2xyz(phi,lambda,h,a,e2);
+    [xb,yb,zb]=geo2xyz(phiB,lambdaB,hB,a,e2);
+    
+    deltas=countDelta(x,y,z,xb,yb,zb);
+    neu=R'*deltas;
+end

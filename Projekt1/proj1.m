@@ -11,8 +11,30 @@ phiB=38.774167;
 lambdaB=-9.134167;
 hB=114;
 
+x=[];
+y=[];
+z=[];
 
-[x,y,z]=geo2xyz(1,1,1,a,e2);
+n=[];
+e=[];
+u=[];
+
+nr=[];
+
+for id = 1:length(phi)
+    tempNeu=geo2neu(phi(id), lambda(id), h(id), phiB, lambdaB, hB, a, e2);
+    [x(id),y(id),z(id)]=geo2xyz(phi(id), lambda(id), h(id), a, e2);
+    n(id)=tempNeu(1);
+    e(id)=tempNeu(2);
+    u(id)=tempNeu(3);
+    nr(id)=id;
+end
+
+%plot3(n,e,u);
+%plot3(x,y,z);
+%plot(nr,h)
+%plot(nr,u)
+%geoscatter(phi,lambda,5, 'ro');
 
 %---Funkcje---
 %Obliczanie xyz

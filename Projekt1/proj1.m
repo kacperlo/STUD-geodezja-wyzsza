@@ -52,11 +52,26 @@ for id = 1:length(phi)
     z(id)=acosd(u(id)/s(id));
 end
 
-%plot3(n,e,u);
-%plot3(x,y,z);
-%plot(nr,h)
-%plot(nr,u)
-%geoscatter(phi,lambda,5, 'ro');
+figure(1)
+plot3(n,e,u);
+title('n e u')
+
+figure(2)
+plot3(x,y,z);
+title('x y z')
+
+figure(3)
+plot(nr,h)
+title('nr,h')
+
+figure(4)
+plot(nr,u)
+title('nr,u)')
+
+figure(5)
+geoscatter(phi,lambda,5, 'ro');
+title('geoscatter')
+
 
 %---Funkcje---
 %Obliczanie xyz

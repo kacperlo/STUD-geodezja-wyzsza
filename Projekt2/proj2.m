@@ -16,9 +16,6 @@ y=[];
 z=[];
 
 [xs,ys,zs] = sphere;      %# Makes a 21-by-21 point sphere
-xs = xs(11:end,:);       %# Keep top 11 x points
-ys = ys(11:end,:);       %# Keep top 11 y points
-zs = zs(11:end,:);       %# Keep top 11 z points
 r = 1;                 %# A radius value
 
 %-----PÓŁNOCNA-----

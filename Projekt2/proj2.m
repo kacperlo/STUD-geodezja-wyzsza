@@ -1,6 +1,5 @@
 clear;
 
-
 re=4.5986775;
 de=16.50930277777778;
 
@@ -25,7 +24,7 @@ r = 1;                 %# A radius value
 %-----PÓŁNOCNA-----
 for i=1:24
     A(i) = countA(katgodz(2021,05,13,i-1,lambda(1),re),phi(1),de);
-    Z(i) = 90-countZ(katgodz(2021,05,13,i-1,lambda(1),re),phi(1),de);
+    Z(i) = countZ(katgodz(2021,05,13,i-1,lambda(1),re),phi(1),de);
     x(i) = 1*sind(Z(i))*cosd(A(i));
     y(i) = 1*sind(Z(i))*sind(A(i));
     z(i) = 1*cosd(Z(i));
@@ -61,7 +60,7 @@ hold off;
 %-----RÓWNIK-----
 for i=1:24
     A(i) = countA(katgodz(2021,05,13,i-1,lambda(2),re),phi(2),de);
-    Z(i) = 90-countZ(katgodz(2021,05,13,i-1,lambda(2),re),phi(2),de);
+    Z(i) = countZ(katgodz(2021,05,13,i-1,lambda(2),re),phi(2),de);
     x(i) = 1*sind(Z(i))*cosd(A(i));
     y(i) = 1*sind(Z(i))*sind(A(i));
     z(i) = 1*cosd(Z(i));
@@ -95,7 +94,7 @@ hold off;
 %-----POŁUDNIOWA-----
 for i=1:24
     A(i) = countA(katgodz(2021,05,13,i-1,lambda(3),re),phi(3),de);
-    Z(i) = 90-countZ(katgodz(2021,05,13,i-1,lambda(3),re),phi(3),de);
+    Z(i) = countZ(katgodz(2021,05,13,i-1,lambda(3),re),phi(3),de);
     x(i) = 1*sind(Z(i))*cosd(A(i));
     y(i) = 1*sind(Z(i))*sind(A(i));
     z(i) = 1*cosd(Z(i));
@@ -143,6 +142,10 @@ function [t] = katgodz(y,m,d,h,lambda,re)
     S = UT1*15 + lambda + g;
     %obliczenie kąta godzinnego(w stopniach)
     t = S - re*15;
+    
+    if t > 360
+        t = t - 360;
+    end
 end 
 
 function g = GMST(jd)
@@ -160,14 +163,11 @@ end
 function A=countA(t,phi,delta)
   licznik=(-cosd(delta)*sind(t));
   mianownik=(cosd(phi)*sind(delta)-sind(phi)*cosd(delta)*cosd(t));
-      if (licznik>0) && (mianownik>0)
-          A=atand(licznik/mianownik);
-      elseif (licznik>0) && (mianownik<0)
-          A=atand(licznik/mianownik)+ 180;
-      elseif (licznik<0) && (mianownik<0)
-          A=atand(licznik/mianownik)+ 180;
-      elseif (licznik<0) && (mianownik>0)
-          A=atand(licznik/mianownik)+ 360;
-      end
+  A=atan2d(licznik, mianownik);
+  if A > 360
+      A = A - 360;
+  elseif A < 0
+      A = A + 360;
+  end
 end
 

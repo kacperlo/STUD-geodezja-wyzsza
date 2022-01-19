@@ -47,7 +47,6 @@ def polePowierzchni(pktA, pktB):
     return round(pole, 6)
 
 def vincent(pktA, pktB):
-    #Na radiany
     pktA = [np.deg2rad(pktA[0]), np.deg2rad(pktA[1])]
     pktB = [np.deg2rad(pktB[0]), np.deg2rad(pktB[1])]
     
@@ -111,3 +110,60 @@ def vincent(pktA, pktB):
       
     return sAB, math.degrees(Aab), math.degrees(Aba)
   
+def kivioji():
+    sAB, Aab = vincent(pktA, pktD)[:2]
+    sAB /= 2
+    
+    n = int(sAB / 1000)
+    ds = sAB / n 
+    
+    PhiA = math.radians(pktA[0])
+    LambdaA = math.radians(pktA[1])
+    
+    Aab = math.radians(Aab)
+    
+    for i in range(n):
+        N = a / (np.sqrt(1-e2*(np.sin(PhiA)**2)))
+        M = a*(1-e2)/(np.sqrt((1-e2*np.sin(PhiA)**2)**3))
+
+        przyrostPhi = ds * np.cos(Aab) / M
+        przyrostAz = ds * np.sin(Aab) * np.tan(PhiA) / N
+
+        polowaPhi = PhiA + 1 / 2 * przyrostPhi
+        polowaAz = Aab + 1 / 2 * przyrostAz
+
+        N = a / (np.sqrt(1 - e2 * (np.sin(polowaPhi) ** 2)))
+        M = a * (1-e2)/(np.sqrt((1-e2*np.sin(polowaPhi)**2)**3))
+
+        przyrostPhi = ds*np.cos(polowaAz)/M
+        Lambdaprzyrost = ds*np.sin(polowaAz)/(N*np.cos(polowaPhi))
+        przyrostAz = np.sin(polowaAz)*np.tan(polowaPhi)*ds/N
+
+        PhiA = PhiA + przyrostPhi
+        LambdaA = LambdaA + Lambdaprzyrost
+        Aab = Aab + przyrostAz
+
+    return math.degrees(PhiA), math.degrees(LambdaA), math.degrees(Aab)
+
+def drukuj():
+  print("--------------------------------")
+  print("Średnia szerokość:")
+  print("> phi=" + naStopnie((pktA[0]+pktD[0])/2))
+  print("> lambda=" + naStopnie((pktA[1]+pktD[1])/2))
+  print("")
+  print("Azymut AD: ==> " + naStopnie(vincent(pktA, pktD)[1]))
+  print("Azymut DA: ==> " + naStopnie(vincent(pktA, pktD)[2]))
+  print("")
+  print("Punkt środkowy:")
+  print("> phi=" + naStopnie(kivioji()[0]))
+  print("> lambda=" + naStopnie(kivioji()[2]))
+  print("")
+  print("Odleglosc miedzy punktem średniej szerokości, a środkowym: " + str(round(vincent(srodek(), kivioji())[0], 3)) + "m")
+  print("")
+  print("Azumyt pierwotny: " + naStopnie(liczAzymut()[0]))
+  print("Azymut odwrotny: " + naStopnie(liczAzymut()[1]))
+  print("")
+  print("Pole powierzchni czworokąta: " + str(polePowierzchni(pktA, pktD)) + "m^2")
+  print("--------------------------------")
+
+drukuj()

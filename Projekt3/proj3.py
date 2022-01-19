@@ -9,6 +9,43 @@ pktB = [50,     20.75]
 pktC = [50.25,  21.25]
 pktD = [50,     21.25]
 
+def srodek():
+  return[(pktA[0]+pktD[0])/2, (pktA[1]+pktD[1])/2]
+
+def naStopnie(stopnie):
+    stopni = math.floor(stopnie) 
+    minut = math.floor((stopnie - stopni) * 60)
+    sekund = (stopnie - stopni - minut/60) * 3600
+    sekund = round(sekund, 5)
+    
+    stopni = str(f"{stopni}")
+    minut = str(f"{minut:02d}")
+    
+    intsec = str(f"{int(sekund):02d}")
+    floatsec = str(round(sekund-int(sekund), 5))[1:]
+
+    return (stopni + "°" + minut + "'" + intsec + "" + floatsec + "\"")
+
+
+def liczAzymut():
+    Azymut, odwrotny = vincent(kivioji()[:2], srodek())[1:]
+    return Azymut - math.degrees(np.pi), odwrotny - math.degrees(np.pi)
+
+
+def polePowierzchni(pktA, pktB):
+    pktA = [np.deg2rad(pktA[0]), np.deg2rad(pktA[1])]
+    pktB = [np.deg2rad(pktB[0]), np.deg2rad(pktB[1])]
+    
+    e = np.sqrt(e2)
+    
+    PhiA = np.sin(pktA[0])/(1 - e2*(np.sin(pktA[0])**2)) + np.log((1+e*np.sin(pktA[0]))/(1-e*np.sin(pktA[0])))/(2*e)
+    PhiB = np.sin(pktB[0])/(1 - e2*(np.sin(pktB[0])**2)) + np.log((1+e*np.sin(pktB[0]))/(1-e*np.sin(pktB[0])))/(2*e)
+
+    b2 = (a * np.sqrt(1 - e2))**2
+    pole = b2*(pktB[1] - pktA[1])/2*(PhiA - PhiB)
+    
+    return round(pole, 6)
+
 def vincent(pktA, pktB):
     #Na radiany
     pktA = [np.deg2rad(pktA[0]), np.deg2rad(pktA[1])]
